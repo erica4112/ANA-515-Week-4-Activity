@@ -1,0 +1,89 @@
+---
+title: "Assignment 02 Loading, saving and describing data"
+author: "Erica Peng"
+date: "2023-09-13"
+output:
+  word_document: default
+  html_document: default
+---
+## Section 1 Describe the dataset you are using
+(what is this data measuring? how was it collected? what kinds of research questions are you hoping to use it to answer?) and in terms of its format (what type of file is it saved in? what if it is in a flat file, is it fixed width or delimited? if it is delimited, what is the delimiter? if it is binary, what is the program that would normally be used to open it?). 
+
+#Resoucre comes from: https://fivethirtyeight.com/features/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/
+The data is measuring the average of each alcohol and bervage of serving sizes per person, which was been collected by World Health Organization (WHO). The file has been saved in a flat file with a "Fixed-Width Format", which we can see in our dataset, each column of data has a specific width, and  each record in the file represents data for a specific location, or consumption. For example, the country of Albania recorded the beer consumption of 88 servings; 132 servings of spirit consumption, and 54 servings of wine. This means that the data values are aligned at specific positions within each line and row. 
+
+```{r}
+#this makes a new data.frame called text_tbl with three columns, Names and Description
+text_tbl <- data.frame(Names = c("beer_servings","spirit_servings","wine_servings"), Description = c("The data shows the average serving sizes of beer per person","The data shows the average serving sizes of spirit per person","The data shows the average serving sizes of wine per person")
+)
+
+
+#prints the table
+text_tbl
+
+```
+
+
+
+## Section 2 Reading the data into R
+```{r}
+library(tidyverse)
+url <- "https://raw.githubusercontent.com/fivethirtyeight/data/master/alcohol-consumption/drinks.csv"
+data <- read_csv(url)
+```
+
+
+## Section 3 Clean the data
+```{r}
+# Load the dplyr library if not already loaded
+# install.packages("dplyr")  # Uncomment and run if dplyr is not installed
+library(dplyr)
+library(tidyverse)
+
+# Calculate the average of a specific column in a dataframe
+average_value_b <- mean(data$beer_servings, na.rm = TRUE)
+average_value_b
+
+average_value_s <- mean(data$spirit_servings, na.rm = TRUE)
+average_value_s
+
+# Keep rows where both 'beed_serving' is greater than 106 and 'spirit_serving' is more than 80
+filtered_data <- filter(data, beer_servings > 106, spirit_servings > 80)
+filtered_data
+```
+
+## Section 4 Characteristics of the data
+```{r}
+#	Write inline code 
+
+```
+
+This data set has `r nrow(data)` country and `r ncol(data)` filtered_data.
+
+## Section 5 Subset and Summary (Subset your dataset)
+```{r}
+# picking three columns to use summary function:
+data_pick3 <- select(data, beer_servings, spirit_servings, wine_servings)
+
+data_pick3
+```
+
+## Section 5 Subset and Summary (Produce a summary of the subset)
+```{r, include = TRUE}
+#creates the summary
+Summarytable<-summary(data_pick3) 
+
+#prints the summary in your output
+Summarytable
+
+#or you can do this to print:
+print(Summarytable)
+
+```
+
+```
+
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
